@@ -1,5 +1,5 @@
 # WINE EDITOR 🍷
-A free browser-based photo editor prototype by Vilor.
+A free browser-based photo editor prototype by Velor.
 
 ## Run locally
 Open `index.html` in a modern browser. No build step or dependencies required.
