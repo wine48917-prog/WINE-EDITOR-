@@ -1,9 +1,7 @@
-# WINE EDITOR V1.1.2 — Mobile layout
+# WINE EDITOR V1.1.3 — Calm mobile update
 
-- Mobile-first preview area with the image kept visible above the tools.
-- Added thumb-friendly tabs for Basic tools and Filters.
-- Kept the existing editing controls, filter definitions, and image-processing logic.
-- Updated the interface accents to match the supplied black/cyan/teal reference.
-- Desktop layout remains based on the previous editor structure.
-
-Open `index.html` in a modern browser. Image processing stays local in the browser.
+- Removed sticky positioning from the mobile preview and tool tabs; they now scroll normally with the page.
+- Replaced bright cyan/teal accents with a restrained charcoal, black, and soft-gray palette.
+- Kept the mobile tools tabs, editor controls, filters, and image-processing behavior.
+- No layout redesign beyond the requested scroll behavior.
+- 
