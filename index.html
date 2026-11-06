@@ -5,27 +5,27 @@
 <meta name="theme-color" content="#11131b">
 <title>WINE EDITOR — by Vilor</title>
 <style>
-:root{--bg:#10121a;--panel:#191c27;--panel2:#222635;--line:#303548;--text:#f5f3fb;--muted:#a9adbd;--purple:#873cf0;--pink:#df3dbb}
+:root{--bg:#0b1014;--panel:#121c22;--panel2:#1b2a32;--line:#29414b;--text:#f2fbfc;--muted:#9bb0b8;--purple:#00b8a9;--pink:#39a9ff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 button,input,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 14px}
-button:hover{border-color:#a65aff}button:disabled{opacity:.4;cursor:not-allowed}
-header{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:12px 22px;gap:12px;background:#141620}
-.brand{direction:ltr;font-weight:900;font-size:25px;letter-spacing:.4px}.brand span{color:#b45aff}.tag{color:var(--muted);font-size:12px}
+button:hover{border-color:#39cfc2}button:disabled{opacity:.4;cursor:not-allowed}
+header{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:12px 22px;gap:12px;background:#101a20}
+.brand{direction:ltr;font-weight:900;font-size:25px;letter-spacing:.4px}.brand span{color:#39cfc2}.tag{color:var(--muted);font-size:12px}
 header .center{color:#ddd;font-weight:600}.actions{display:flex;gap:8px;flex-wrap:wrap}
-.primary{background:linear-gradient(110deg,var(--pink),var(--purple));border:0;font-weight:700}
+.primary{background:linear-gradient(110deg,#00b8a9,#238be8);border:0;font-weight:700}
 main{display:grid;grid-template-columns:260px minmax(300px,1fr) 270px;gap:14px;padding:14px;min-height:calc(100vh - 132px)}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px;overflow:auto}
-h3{margin:0 0 15px;font-size:16px}.tool{display:flex;align-items:center;justify-content:space-between;padding:11px 10px;border-radius:10px;color:#e6e3ef}.tool.active{background:#48217b}
+h3{margin:0 0 15px;font-size:16px}.tool{display:flex;align-items:center;justify-content:space-between;padding:11px 10px;border-radius:10px;color:#e6e3ef}.tool.active{background:#075e61}
 .control{margin:16px 0}.control label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;color:#e7e3f0}
-input[type=range]{width:100%;accent-color:#a64dff}
-input[type=text],select{width:100%;background:#10121a;border:1px solid var(--line);border-radius:9px;color:white;padding:10px}
+input[type=range]{width:100%;accent-color:#00c2b2}
+input[type=text],select{width:100%;background:#0b1419;border:1px solid var(--line);border-radius:9px;color:white;padding:10px}
 .workspace{display:flex;flex-direction:column;gap:12px;min-width:0}
-.stage{flex:1;min-height:450px;background:radial-gradient(#25293a,#141620 68%);border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px}
+.stage{flex:1;min-height:450px;background:radial-gradient(#203b45,#101a20 68%);border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px}
 #preview{max-width:100%;max-height:72vh;display:none;box-shadow:0 12px 45px #0009}
 .empty{text-align:center;color:var(--muted);max-width:360px}.empty .emoji{font-size:55px}.empty h2{color:white}
 .bottom{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.filter{padding:8px;font-size:13px}
-.filter.active{outline:2px solid #ae56ff}
+.filter.active{outline:2px solid #39cfc2}
 .note{font-size:12px;color:var(--muted);line-height:1.7}
 footer{text-align:center;color:var(--muted);padding:12px;border-top:1px solid var(--line);font-size:12px}
 @media(max-width:950px){main{grid-template-columns:1fr}.panel{overflow:visible}.stage{min-height:360px}#preview{max-height:55vh}header{height:auto;flex-wrap:wrap}.center{display:none}}
@@ -85,10 +85,10 @@ function state(){return {rotation,flip,filter,frame,caption,vals:Object.fromEntr
 function applyState(s){rotation=s.rotation;flip=s.flip;filter=s.filter;frame=s.frame;caption=s.caption;sliders.forEach(x=>$(x).value=s.vals[x]);render();buttons()}
 function buttons(){$('undoBtn').disabled=!history.length;$('redoBtn').disabled=!future.length}
 function loadFile(file){if(!file||!file.type.startsWith('image/'))return;const url=URL.createObjectURL(file);const im=new Image();im.onload=()=>{img=im;rotation=0;flip=false;filter='none';frame='none';caption='';sliders.forEach(x=>$(x).value= x==='brightness'||x==='contrast'||x==='saturate'?100:0);history=[];future=[];$('empty').style.display='none';canvas.style.display='block';render();buttons();URL.revokeObjectURL(url)};im.src=url}
-function render(){if(!img)return;const sideways=Math.abs(rotation)%180===90;canvas.width=sideways?img.height:img.width;canvas.height=sideways?img.width:img.height;ctx.save();ctx.clearRect(0,0,canvas.width,canvas.height);ctx.translate(canvas.width/2,canvas.height/2);ctx.rotate(rotation*Math.PI/180);ctx.scale(flip?-1:1,1);ctx.filter=`brightness(${$('brightness').value}%) contrast($('contrast').value%) saturate($('saturate').value%) grayscale($('grayscale').value%) blur($('blur').value}px) ${filter==='none'?'':filter}`;ctx.drawImage(img,-img.width/2,-img.height/2);ctx.filter='none';ctx.restore();if(frame!=='none'){ctx.save();ctx.lineWidth=Math.max(12,Math.min(canvas.width,canvas.height)*.025);ctx.strokeStyle={white:'#fff',purple:'#963df0',pink:'#e642b9'}[frame];ctx.strokeRect(ctx.lineWidth/2,ctx.lineWidth/2,canvas.width-ctx.lineWidth,canvas.height-ctx.lineWidth);ctx.restore()}if(caption){ctx.save();const size=Math.max(24,canvas.width*.055);ctx.font=`bold ${size}px sans-serif`;ctx.textAlign='center';ctx.lineWidth=Math.max(3,size*.08);ctx.strokeStyle='#000';ctx.fillStyle='#fff';ctx.strokeText(caption,canvas.width/2,canvas.height*.9);ctx.fillText(caption,canvas.width/2,canvas.height*.9);ctx.restore()}$('dimensions').textContent=`${canvas.width} × ${canvas.height} px`}
+function render(){if(!img)return;const sideways=Math.abs(rotation)%180===90;canvas.width=sideways?img.height:img.width;canvas.height=sideways?img.width:img.height;ctx.save();ctx.clearRect(0,0,canvas.width,canvas.height);ctx.translate(canvas.width/2,canvas.height/2);ctx.rotate(rotation*Math.PI/180);ctx.scale(flip?-1:1,1);ctx.filter=`brightness(${$('brightness').value}%) contrast(${$('contrast').value}%) saturate(${$('saturate').value}%) grayscale(${$('grayscale').value}%) blur(${$('blur').value}px) ${filter==='none'?'':filter}`;ctx.drawImage(img,-img.width/2,-img.height/2);ctx.filter='none';ctx.restore();if(frame!=='none'){ctx.save();ctx.lineWidth=Math.max(12,Math.min(canvas.width,canvas.height)*.025);ctx.strokeStyle={white:'#fff',purple:'#963df0',pink:'#e642b9'}[frame];ctx.strokeRect(ctx.lineWidth/2,ctx.lineWidth/2,canvas.width-ctx.lineWidth,canvas.height-ctx.lineWidth);ctx.restore()}if(caption){ctx.save();const size=Math.max(24,canvas.width*.055);ctx.font=`bold ${size}px sans-serif`;ctx.textAlign='center';ctx.lineWidth=Math.max(3,size*.08);ctx.strokeStyle='#000';ctx.fillStyle='#fff';ctx.strokeText(caption,canvas.width/2,canvas.height*.9);ctx.fillText(caption,canvas.width/2,canvas.height*.9);ctx.restore()}$('dimensions').textContent=`${canvas.width} × ${canvas.height} px`}
 function download(){if(!img){alert('ارفع صورة أولاً');return}const a=document.createElement('a');a.download='wine-editor.png';a.href=canvas.toDataURL('image/png');a.click()}
 $('openBtn').onclick=$('emptyOpen').onclick=()=>$('file').click();$('file').onchange=e=>loadFile(e.target.files[0]);
-sliders.forEach(id=>{$(id).oninput=()=>{$(id+'Val').textContent=$(id).value+(id==='blur'?'px':'%');render()};$(id).onchange=snapshot});
+sliders.forEach(id=>{let before='';$(id).onpointerdown=()=>{before=JSON.stringify(state())};$(id).onkeydown=()=>{if(!before)before=JSON.stringify(state())};$(id).oninput=()=>{$(id+'Val').textContent=$(id).value+(id==='blur'?'px':'%');render()};$(id).onchange=()=>{if(before){history.push(before);if(history.length>30)history.shift();future=[];before='';buttons()}}});
 $('rotateBtn').onclick=()=>{snapshot();rotation=(rotation+90)%360;render()};
 $('flipBtn').onclick=()=>{snapshot();flip=!flip;render()};
 $('addText').onclick=()=>{if(!img)return alert('ارفع صورة أولاً');snapshot();caption=$('caption').value;render()};
