@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#11131b">
+<title>WINE EDITOR — by Vilor</title>
+<style>
+:root{--bg:#10121a;--panel:#191c27;--panel2:#222635;--line:#303548;--text:#f5f3fb;--muted:#a9adbd;--purple:#873cf0;--pink:#df3dbb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 14px}
+button:hover{border-color:#a65aff}button:disabled{opacity:.4;cursor:not-allowed}
+header{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:12px 22px;gap:12px;background:#141620}
+.brand{direction:ltr;font-weight:900;font-size:25px;letter-spacing:.4px}.brand span{color:#b45aff}.tag{color:var(--muted);font-size:12px}
+header .center{color:#ddd;font-weight:600}.actions{display:flex;gap:8px;flex-wrap:wrap}
+.primary{background:linear-gradient(110deg,var(--pink),var(--purple));border:0;font-weight:700}
+main{display:grid;grid-template-columns:260px minmax(300px,1fr) 270px;gap:14px;padding:14px;min-height:calc(100vh - 132px)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px;overflow:auto}
+h3{margin:0 0 15px;font-size:16px}.tool{display:flex;align-items:center;justify-content:space-between;padding:11px 10px;border-radius:10px;color:#e6e3ef}.tool.active{background:#48217b}
+.control{margin:16px 0}.control label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;color:#e7e3f0}
+input[type=range]{width:100%;accent-color:#a64dff}
+input[type=text],select{width:100%;background:#10121a;border:1px solid var(--line);border-radius:9px;color:white;padding:10px}
+.workspace{display:flex;flex-direction:column;gap:12px;min-width:0}
+.stage{flex:1;min-height:450px;background:radial-gradient(#25293a,#141620 68%);border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px}
+#preview{max-width:100%;max-height:72vh;display:none;box-shadow:0 12px 45px #0009}
+.empty{text-align:center;color:var(--muted);max-width:360px}.empty .emoji{font-size:55px}.empty h2{color:white}
+.bottom{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.filter{padding:8px;font-size:13px}
+.filter.active{outline:2px solid #ae56ff}
+.note{font-size:12px;color:var(--muted);line-height:1.7}
+footer{text-align:center;color:var(--muted);padding:12px;border-top:1px solid var(--line);font-size:12px}
+@media(max-width:950px){main{grid-template-columns:1fr}.panel{overflow:visible}.stage{min-height:360px}#preview{max-height:55vh}header{height:auto;flex-wrap:wrap}.center{display:none}}
+</style></head>
+<body>
+<header>
+ <div><div class="brand">🍷 WINE <span>EDITOR</span></div><div class="tag">Edit. Create. Inspire. · by Vilor</div></div>
+ <div class="center">محرر صور احترافي — مجاني دائمًا</div>
+ <div class="actions"><button id="openBtn">📂 فتح صورة</button><button id="resetBtn">↺ إعادة ضبط</button><button class="primary" id="downloadBtn">⬇ تحميل الصورة</button></div>
+</header>
+<input id="file" type="file" accept="image/*" hidden>
+<main>
+ <aside class="panel">
+  <h3>✨ التعديلات الأساسية</h3>
+  <div class="control"><label>السطوع <b id="brightnessVal">100%</b></label><input id="brightness" type="range" min="0" max="200" value="100"></div>
+  <div class="control"><label>التباين <b id="contrastVal">100%</b></label><input id="contrast" type="range" min="0" max="200" value="100"></div>
+  <div class="control"><label>التشبع <b id="saturateVal">100%</b></label><input id="saturate" type="range" min="0" max="200" value="100"></div>
+  <div class="control"><label>الأبيض والأسود <b id="grayscaleVal">0%</b></label><input id="grayscale" type="range" min="0" max="100" value="0"></div>
+  <div class="control"><label>الضبابية <b id="blurVal">0px</b></label><input id="blur" type="range" min="0" max="10" value="0"></div>
+  <hr style="border-color:var(--line)">
+  <h3>🧰 أدوات إضافية</h3>
+  <button class="tool" id="rotateBtn">⟳ تدوير 90 درجة</button>
+  <button class="tool" id="flipBtn">↔ قلب أفقي</button>
+  <div class="control"><label>إضافة نص على الصورة</label><input id="caption" type="text" placeholder="اكتب النص هنا"></div>
+  <button id="addText" class="primary" style="width:100%">إضافة النص</button>
+  <p class="note">يمكنك رفع صورة، تعديلها، ثم تنزيل النتيجة على جهازك. تتم المعالجة محليًا داخل المتصفح.</p>
+ </aside>
+ <section class="workspace">
+  <div class="stage">
+   <div class="empty" id="empty"><div class="emoji">🖼️</div><h2>ابدأ إبداعك مع WINE</h2><p>ارفع صورة من جهازك لبدء التعديل عليها.</p><button class="primary" id="emptyOpen">اختيار صورة</button></div>
+   <canvas id="canvas" style="display:none;max-width:100%;max-height:72vh"></canvas>
+  </div>
+  <div class="bottom"><div class="actions"><button id="undoBtn" disabled>↶ تراجع</button><button id="redoBtn" disabled>↷ إعادة</button></div><span class="note" id="dimensions">لم يتم اختيار صورة</span><button id="saveBtn">💾 حفظ نسخة</button></div>
+ </section>
+ <aside class="panel">
+  <h3>🎨 الفلاتر الجاهزة</h3>
+  <div class="grid" id="filters">
+   <button class="filter active" data-filter="normal">عادي</button><button class="filter" data-filter="grayscale(1)">أبيض وأسود</button>
+   <button class="filter" data-filter="sepia(.8)">Vintage</button><button class="filter" data-filter="saturate(1.7) contrast(1.08)">حيوي</button>
+   <button class="filter" data-filter="hue-rotate(25deg) saturate(1.3)">دافئ</button><button class="filter" data-filter="contrast(1.3) brightness(.9)">سينمائي</button>
+  </div>
+  <hr style="border-color:var(--line);margin:18px 0">
+  <h3>🖼️ الإطارات</h3>
+  <div class="grid"><button class="filter" data-frame="none">بدون</button><button class="filter" data-frame="white">أبيض</button><button class="filter" data-frame="purple">بنفسجي</button><button class="filter" data-frame="pink">وردي</button></div>
+  <hr style="border-color:var(--line);margin:18px 0">
+  <h3>💡 قريبًا</h3>
+  <p class="note">إزالة الخلفية بالذكاء الاصطناعي، حذف العناصر، وتحسين الجودة. هذه الميزات تحتاج ربط خدمة معالجة آمنة، لذلك لم نضع أزرارًا وهمية لها في النسخة الأولى.</p>
+ </aside>
+</main>
+<footer>WINE EDITOR 🍷 — مجاني · by Vilor</footer>
+<script>
+const $=id=>document.getElementById(id), canvas=$('canvas'),ctx=canvas.getContext('2d');
+let img=null,rotation=0,flip=false,filter='none',frame='none',caption='',history=[],future=[];
+const sliders=['brightness','contrast','saturate','grayscale','blur'];
+function snapshot(){if(!img)return;history.push(JSON.stringify(state()));if(history.length>30)history.shift();future=[];buttons()}
+function state(){return {rotation,flip,filter,frame,caption,vals:Object.fromEntries(sliders.map(x=>[x,$(x).value]))}}
+function applyState(s){rotation=s.rotation;flip=s.flip;filter=s.filter;frame=s.frame;caption=s.caption;sliders.forEach(x=>$(x).value=s.vals[x]);render();buttons()}
+function buttons(){$('undoBtn').disabled=!history.length;$('redoBtn').disabled=!future.length}
+function loadFile(file){if(!file||!file.type.startsWith('image/'))return;const url=URL.createObjectURL(file);const im=new Image();im.onload=()=>{img=im;rotation=0;flip=false;filter='none';frame='none';caption='';sliders.forEach(x=>$(x).value= x==='brightness'||x==='contrast'||x==='saturate'?100:0);history=[];future=[];$('empty').style.display='none';canvas.style.display='block';render();buttons();URL.revokeObjectURL(url)};im.src=url}
+function render(){if(!img)return;const sideways=Math.abs(rotation)%180===90;canvas.width=sideways?img.height:img.width;canvas.height=sideways?img.width:img.height;ctx.save();ctx.clearRect(0,0,canvas.width,canvas.height);ctx.translate(canvas.width/2,canvas.height/2);ctx.rotate(rotation*Math.PI/180);ctx.scale(flip?-1:1,1);ctx.filter=`brightness(${$('brightness').value}%) contrast($('contrast').value%) saturate($('saturate').value%) grayscale($('grayscale').value%) blur($('blur').value}px) ${filter==='none'?'':filter}`;ctx.drawImage(img,-img.width/2,-img.height/2);ctx.filter='none';ctx.restore();if(frame!=='none'){ctx.save();ctx.lineWidth=Math.max(12,Math.min(canvas.width,canvas.height)*.025);ctx.strokeStyle={white:'#fff',purple:'#963df0',pink:'#e642b9'}[frame];ctx.strokeRect(ctx.lineWidth/2,ctx.lineWidth/2,canvas.width-ctx.lineWidth,canvas.height-ctx.lineWidth);ctx.restore()}if(caption){ctx.save();const size=Math.max(24,canvas.width*.055);ctx.font=`bold ${size}px sans-serif`;ctx.textAlign='center';ctx.lineWidth=Math.max(3,size*.08);ctx.strokeStyle='#000';ctx.fillStyle='#fff';ctx.strokeText(caption,canvas.width/2,canvas.height*.9);ctx.fillText(caption,canvas.width/2,canvas.height*.9);ctx.restore()}$('dimensions').textContent=`${canvas.width} × ${canvas.height} px`}
+function download(){if(!img){alert('ارفع صورة أولاً');return}const a=document.createElement('a');a.download='wine-editor.png';a.href=canvas.toDataURL('image/png');a.click()}
+$('openBtn').onclick=$('emptyOpen').onclick=()=>$('file').click();$('file').onchange=e=>loadFile(e.target.files[0]);
+sliders.forEach(id=>{$(id).oninput=()=>{$(id+'Val').textContent=$(id).value+(id==='blur'?'px':'%');render()};$(id).onchange=snapshot});
+$('rotateBtn').onclick=()=>{snapshot();rotation=(rotation+90)%360;render()};
+$('flipBtn').onclick=()=>{snapshot();flip=!flip;render()};
+$('addText').onclick=()=>{if(!img)return alert('ارفع صورة أولاً');snapshot();caption=$('caption').value;render()};
+document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{if(!img)return alert('ارفع صورة أولاً');snapshot();filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()});
+document.querySelectorAll('[data-frame]').forEach(b=>b.onclick=()=>{if(!img)return alert('ارفع صورة أولاً');snapshot();frame=b.dataset.frame;render()});
+$('resetBtn').onclick=()=>{if(!img)return;snapshot();rotation=0;flip=false;filter='none';frame='none';caption='';sliders.forEach(x=>$(x).value=x==='brightness'||x==='contrast'||x==='saturate'?100:0);render()};
+$('undoBtn').onclick=()=>{if(!history.length)return;future.push(JSON.stringify(state()));applyState(JSON.parse(history.pop()))};
+$('redoBtn').onclick=()=>{if(!future.length)return;history.push(JSON.stringify(state()));applyState(JSON.parse(future.pop()))};
+$('downloadBtn').onclick=$('saveBtn').onclick=download;
+</script></body></html>
