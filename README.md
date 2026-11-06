@@ -1,24 +1,22 @@
-# WINE EDITOR 🍷
+# WINE EDITOR 🍷 — v1.0.0
 A free browser-based photo editor prototype by Velor.
 
-## Run locally
+## Run
 Open `index.html` in a modern browser. No build step or dependencies required.
 
 ## Publish on GitHub Pages
 1. Create a public repository named `wine-editor`.
-2. Upload `index.html` (and this README).
-3. In repository Settings → Pages, choose Deploy from a branch.
-4. Select `main` and `/ (root)`, then Save.
-5. Wait for GitHub Pages to provide the public URL.
+2. Upload `index.html` and `README.md` to the repository root.
+3. Open Settings → Pages.
+4. Choose Deploy from a branch, select `main` and `/ (root)`, then Save.
 
-## Included in this first version
+## Included
 - Upload local images
-- Brightness, contrast, saturation, grayscale and blur
+- Working brightness, contrast, saturation, grayscale and blur adjustments
 - Preset filters
 - Rotate and flip
-- Text overlay
-- Simple frames
+- Text overlay and simple frames
 - Undo/redo and reset
 - Download edited image as PNG
 
-Image processing happens locally in the browser. AI background removal/object removal/upscaling are intentionally not represented as working features yet; they require a secure processing service or model integration.
+Image processing runs locally in the browser. AI background removal, object removal and upscaling need a secure processing service or model integration and are not included yet.
