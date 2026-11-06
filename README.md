@@ -1,18 +1,8 @@
-# WINE EDITOR V1.2.0
+# WINE EDITOR V1.2.1 — Logo fix
 
-## Visual identity
-- Added the supplied VELOR symbol to the header and empty state.
-- Introduced a restrained charcoal interface with a muted wine accent, warm off-white text, and soft borders.
-- Reworked the canvas/stage background into a subtle dark studio surface so photos stand out without a loud gradient.
+- Fixed the VELOR logo not appearing after deployment.
+- Embedded the logo directly into `index.html`, so it no longer depends on the assets folder being uploaded separately.
+- Both the header logo and empty-state logo use the embedded image.
+- All V1.2.0 UI and editing features are preserved.
 
-## Usability
-- Improved tool button spacing and grouped the history controls in a clearer footer bar.
-- Kept the mobile tabs and natural page scrolling.
-- Added two practical tools: vertical flip and gentle auto-enhance.
-- Updated frame choices to calm neutral/wine tones.
-
-## Files
-- `index.html`
-- `assets/velor-mark.png`
-
-Open `index.html` in a modern browser. Image editing runs locally in the browser.
+Deploy the updated index.html to Vercel.
