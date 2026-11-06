@@ -1,5 +1,12 @@
-# WINE EDITOR 🍷 — v1.0.0
-A free browser-based photo editor prototype by Velor.
+# WINE EDITOR 🍷 — v1.1.1
+A free browser-based photo editor by Vilor.
+
+## v1.1.1
+- Preserved the existing visual theme and color palette.
+- Improved mobile editing: the preview remains pinned while scrolling through controls.
+- Increased touch target size for sliders and tool buttons.
+- Replaced emoji UI decoration with consistent inline SVG icons.
+- Kept all existing filters and editing features.
 
 ## Run
 Open `index.html` in a modern browser. No build step or dependencies required.
