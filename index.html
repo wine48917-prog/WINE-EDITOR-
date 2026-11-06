@@ -5,44 +5,72 @@
 <meta name="theme-color" content="#11131b">
 <title>WINE EDITOR v1.1.1 — by Vilor</title>
 <style>
-:root{--bg:#0b1014;--panel:#121c22;--panel2:#1b2a32;--line:#29414b;--text:#f2fbfc;--muted:#9bb0b8;--purple:#00b8a9;--pink:#39a9ff}
+:root{--bg:#020b0c;--panel:#071c1e;--panel2:#0b292b;--line:#145456;--text:#f2ffff;--muted:#91b9b9;--purple:#00d9cf;--pink:#00a9a5;--accent:#00eee2}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 button,input,select{font:inherit}
 .icon{display:inline-flex;width:18px;height:18px;vertical-align:-4px;align-items:center;justify-content:center;flex:0 0 18px}.icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.brand .icon{width:22px;height:22px;margin-left:3px}button{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 14px}
-button:hover{border-color:#39cfc2}button:disabled{opacity:.4;cursor:not-allowed}
-header{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:12px 22px;gap:12px;background:#101a20}
+button:hover{border-color:#00eee2}button:disabled{opacity:.4;cursor:not-allowed}
+header{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:12px 22px;gap:12px;background:#061719}
 .brand{direction:ltr;font-weight:900;font-size:25px;letter-spacing:.4px}.brand span{color:#39cfc2}.tag{color:var(--muted);font-size:12px}
 header .center{color:#ddd;font-weight:600}.actions{display:flex;gap:8px;flex-wrap:wrap}
-.primary{background:linear-gradient(110deg,#00b8a9,#238be8);border:0;font-weight:700}
+.primary{background:linear-gradient(110deg,#00eee2,#00a9a5);border:0;font-weight:700}
 main{display:grid;grid-template-columns:260px minmax(300px,1fr) 270px;gap:14px;padding:14px;min-height:calc(100vh - 132px)}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px;overflow:auto}
-h3{margin:0 0 15px;font-size:16px}.tool{display:flex;align-items:center;justify-content:space-between;padding:11px 10px;border-radius:10px;color:#e6e3ef}.tool.active{background:#075e61}
+h3{margin:0 0 15px;font-size:16px}.tool{display:flex;align-items:center;justify-content:space-between;padding:11px 10px;border-radius:10px;color:#e6e3ef}.tool.active{background:#075e60}
 .control{margin:16px 0}.control label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;color:#e7e3f0}
-input[type=range]{width:100%;accent-color:#00c2b2}
+input[type=range]{width:100%;accent-color:#00eee2}
 input[type=text],select{width:100%;background:#0b1419;border:1px solid var(--line);border-radius:9px;color:white;padding:10px}
 .workspace{display:flex;flex-direction:column;gap:12px;min-width:0}
-.stage{flex:1;min-height:450px;background:radial-gradient(#203b45,#101a20 68%);border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px}
+.stage{flex:1;min-height:450px;background:linear-gradient(100deg,#020606 0%,#063536 48%,#00d9cf 100%);border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px}
 #preview{max-width:100%;max-height:72vh;display:none;box-shadow:0 12px 45px #0009}
 .empty{text-align:center;color:var(--muted);max-width:360px}.empty .emoji{font-size:55px}.empty h2{color:white}
 .bottom{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.filter{padding:8px;font-size:13px}
-.filter.active{outline:2px solid #39cfc2}
+.filter.active{outline:2px solid #00eee2}
 .note{font-size:12px;color:var(--muted);line-height:1.7}
 footer{text-align:center;color:var(--muted);padding:12px;border-top:1px solid var(--line);font-size:12px}
+.mobile-tabs{display:none}
 @media(max-width:950px){
- main{grid-template-columns:1fr;gap:10px;padding:10px}
- header{height:auto;min-height:68px;flex-wrap:wrap;padding:10px 14px;position:relative}
+ body{padding-bottom:env(safe-area-inset-bottom)}
+ header{height:auto;min-height:58px;flex-wrap:nowrap;padding:8px 12px;gap:8px;position:relative}
+ .brand{font-size:20px}.tag{font-size:10px}
  header .center{display:none}
- .actions{gap:6px}.actions button{padding:9px 10px;font-size:13px}
- .workspace{position:sticky;top:0;z-index:8;align-self:start;width:100%;background:var(--bg);padding-bottom:8px}
- .stage{min-height:clamp(150px,24vh,230px);height:clamp(150px,24vh,230px);padding:8px}
- #canvas{max-height:21vh!important;max-width:100%;width:auto;height:auto}
- .bottom{gap:6px}.bottom .actions button{padding:8px 10px}
- .panel{overflow:visible;padding:13px}
- .control{margin:13px 0}.control input[type=range]{height:32px;touch-action:pan-y}
+ header .actions{gap:5px;justify-content:flex-end}
+ header .actions button{padding:8px 9px;font-size:12px}
+ header .actions #downloadBtn{display:none}
+ main{display:flex;flex-direction:column;gap:9px;padding:8px}
+ .workspace{order:0;position:sticky;top:0;z-index:20;align-self:stretch;width:100%;background:var(--bg);padding:0 0 7px;gap:7px}
+ .stage{min-height:0;height:clamp(170px,27svh,260px);padding:8px;border-radius:13px;background:linear-gradient(100deg,#020606 0%,#063536 48%,#00d9cf 100%)}
+ #canvas{max-height:24svh!important;max-width:100%;width:auto;height:auto}
+ .empty{padding:4px}.empty h2{font-size:18px;margin:7px 0}
+ .empty p{font-size:12px;margin:5px 0 10px}
+ .bottom{gap:6px;flex-wrap:nowrap}
+ .bottom .actions{gap:5px}
+ .bottom button{padding:8px 9px;font-size:12px}
+ .bottom .note{font-size:10px}
+ #saveBtn{display:none}
+ .mobile-tabs{order:1;display:grid;grid-template-columns:1fr 1fr;gap:7px;position:sticky;top:calc(clamp(170px,27svh,260px) + 72px);z-index:19;padding:7px;background:var(--bg);border:1px solid var(--line);border-radius:13px}
+ .mobile-tab{display:flex;justify-content:center;align-items:center;gap:7px;min-height:44px;border-radius:10px;background:var(--panel);font-weight:700}
+ .mobile-tab.active{background:#075e60;border-color:var(--accent);box-shadow:inset 0 0 0 1px #00eee244}
+ .primary-panel{order:2;display:block}
+ .filters-panel{order:3;display:none}
+ .primary-panel.mobile-hidden{display:none}
+ .filters-panel.mobile-visible{display:block}
+ .panel{overflow:visible;padding:12px;border-radius:13px}
+ .panel h3{font-size:15px;margin-bottom:12px}
+ .control{margin:12px 0}
+ .control label{font-size:13px;margin-bottom:7px}
+ .control input[type=range]{height:38px;touch-action:pan-y;accent-color:#00eee2}
  input[type=range]{padding:0}
- .tool{min-height:44px}
- footer{padding-bottom:18px}
+ .tool{min-height:46px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .filter{min-height:42px}
+ footer{padding:12px 10px 18px}
+}
+@media(max-width:380px){
+ header .actions #resetBtn{display:none}
+ .brand{font-size:18px}
+ .bottom .note{max-width:105px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
 </style></head>
 <body>
@@ -53,7 +81,7 @@ footer{text-align:center;color:var(--muted);padding:12px;border-top:1px solid va
 </header>
 <input id="file" type="file" accept="image/*" hidden>
 <main>
- <aside class="panel">
+ <aside class="panel primary-panel">
   <h3><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 21v-7m0-4V3m8 18v-9m0-4V3m8 18v-5m0-4V3M2 14h4m4-6h4m4 8h4"/></svg></span> التعديلات الأساسية</h3>
   <div class="control"><label>السطوع <b id="brightnessVal">100%</b></label><input id="brightness" type="range" min="0" max="200" value="100"></div>
   <div class="control"><label>التباين <b id="contrastVal">100%</b></label><input id="contrast" type="range" min="0" max="200" value="100"></div>
@@ -75,7 +103,11 @@ footer{text-align:center;color:var(--muted);padding:12px;border-top:1px solid va
   </div>
   <div class="bottom"><div class="actions"><button id="undoBtn" disabled><span class="icon"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h9a7 7 0 0 1 0 14h-2"/></svg></span> تراجع</button><button id="redoBtn" disabled><span class="icon"><svg viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9h-9a7 7 0 0 0 0 14h2"/></svg></span> إعادة</button></div><span class="note" id="dimensions">لم يتم اختيار صورة</span><button id="saveBtn"><span class="icon"><svg viewBox="0 0 24 24"><path d="M5 3h12l4 4v14H3V3h2Z"/><path d="M7 3v6h10V3M7 21v-8h10v8"/></svg></span> حفظ نسخة</button></div>
  </section>
- <aside class="panel">
+ <nav class="mobile-tabs" aria-label="أقسام أدوات التعديل">
+  <button type="button" class="mobile-tab active" data-panel="basic"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 21v-7m0-4V3m8 18v-9m0-4V3m8 18v-5m0-4V3M2 14h4m4-6h4m4 8h4"/></svg></span> أساسي</button>
+  <button type="button" class="mobile-tab" data-panel="filters"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 1.7-3.1 1.8 1.8 0 0 1 1.5-2.9H18a3 3 0 0 0 3-3c0-5-4-9-9-9Z"/></svg></span> فلاتر</button>
+ </nav>
+ <aside class="panel filters-panel">
   <h3><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 1.7-3.1 1.8 1.8 0 0 1 1.5-2.9H18a3 3 0 0 0 3-3c0-5-4-9-9-9Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="12" cy="7" r="1"/><circle cx="16.5" cy="10" r="1"/></svg></span> الفلاتر الجاهزة</h3>
   <div class="grid" id="filters">
    <button class="filter active" data-filter="normal">عادي</button><button class="filter" data-filter="grayscale(1)">أبيض وأسود</button>
@@ -95,6 +127,13 @@ footer{text-align:center;color:var(--muted);padding:12px;border-top:1px solid va
 const $=id=>document.getElementById(id), canvas=$('canvas'),ctx=canvas.getContext('2d');
 let img=null,rotation=0,flip=false,filter='none',frame='none',caption='',history=[],future=[];
 const sliders=['brightness','contrast','saturate','grayscale','blur'];
+document.querySelectorAll('.mobile-tab').forEach(tab=>tab.addEventListener('click',()=>{
+ const filters=tab.dataset.panel==='filters';
+ document.querySelectorAll('.mobile-tab').forEach(x=>x.classList.toggle('active',x===tab));
+ document.querySelector('.primary-panel').classList.toggle('mobile-hidden',filters);
+ document.querySelector('.filters-panel').classList.toggle('mobile-visible',filters);
+}));
+
 function snapshot(){if(!img)return;history.push(JSON.stringify(state()));if(history.length>30)history.shift();future=[];buttons()}
 function state(){return {rotation,flip,filter,frame,caption,vals:Object.fromEntries(sliders.map(x=>[x,$(x).value]))}}
 function syncLabels(){sliders.forEach(x=>$(x+'Val').textContent=$(x).value+(x==='blur'?'px':'%'))}
